@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Message System</title>
+		<script type="text/javascript" src="/webjars/jquery/2.2.0/jquery.min.js"></script>
+		<script type="text/javascript" src="/webjars/vue/2.6.8/dist/vue.min.js"></script>
+		<!-- Bootstrap core CSS -->
+		<link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="asserts/css/message.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+			<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Message System</a>
+			<ul class="navbar-nav px-3">
+				<li class="nav-item text-nowrap">
+					<a class="nav-link" href="#">未登录</a>
+				</li>
+			</ul>
+		</nav>
+
+		<div class="container-fluid">
+			<div class="row">
+				<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+					<div class="sidebar-sticky">
+						<ul class="nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link" href="/index.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+										<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+										<polyline points="13 2 13 9 20 9"></polyline>
+									</svg>
+									邮箱配置
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" href="#">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+										<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+										<polyline points="2 17 12 22 22 17"></polyline>
+										<polyline points="2 12 12 17 22 12"></polyline>
+									</svg>
+									邮件管理
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+						<h1 class="h2">邮件列表</h1>
+					</div>
+					<div class="table-responsive" id="maillist">
+						<table class="table table-striped table-md">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>接收人</th>
+									<th>主题</th>
+									<th>邮件内容</th>
+									<th>发送日期</th>
+									<th>发送状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(mail,index) in mails">
+									<td>{{ index + 1 }}</td>
+									<td>{{ mail.mailTo }}</td>
+									<td>{{ mail.subject }}</td>
+									<td>{{ mail.mailContent }}</td>
+									<td>{{ mail.sendDate }}</td>
+									<td v-bind:id= "mail.id + 'state'" :style="{color:mail.sendStatatus==true?'green':'red'}">{{ mail.sendStatatus==true?'已发送':'发送失败' }}</td>
+									<td><button v-bind:id= "mail.id"  @click="resendmail(mail.id)"class="btn-xs btn-danger" v-show="mail.sendStatatus == false">重新发送</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<input type="hidden" v-mode="pageNo"/>
+						<center><a style="cursor:pointer"  @click="loadmore()">{{message}}</a></center>
+					</div>
+				</main>
+			</div>
+		</div>
+		
+	</body>
+<script type="text/javascript" src="/asserts/js/message.js"></script>
+</html>

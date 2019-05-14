@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Message System</title>
+		<script type="text/javascript" src="/webjars/jquery/2.2.0/jquery.min.js"></script>
+		<script type="text/javascript" src="/webjars/vue/2.6.8/dist/vue.min.js"></script>
+		<!-- Bootstrap core CSS -->
+		<link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Bootstrap core JS -->
+		<script type="text/javascript" src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<!-- Custom styles for this template -->
+		<link href="asserts/css/message.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+			<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Message System</a>
+			<ul class="navbar-nav px-3">
+				<li class="nav-item text-nowrap">
+					<a class="nav-link" href="#">未登录</a>
+				</li>
+			</ul>
+		</nav>
+
+		<div class="container-fluid">
+			<div class="row">
+				<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+					<div class="sidebar-sticky">
+						<ul class="nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link active" href="#">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+										<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+										<polyline points="13 2 13 9 20 9"></polyline>
+									</svg>
+									邮箱配置
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="list.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+										<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+										<polyline points="2 17 12 22 22 17"></polyline>
+										<polyline points="2 12 12 17 22 12"></polyline>
+									</svg>
+									邮件管理
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" id="mailconfigform">
+					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+						<h1 class="h2">邮箱配置</h1>
+					</div>
+					<form class="form-horizontal" action="/mailconfig" method="post" >
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-4 control-label">邮箱服务器地址：</label>
+						    <div class="col-sm-6">
+						      <input v-model=smtpHost name="smtpHost"  type="text" class="form-control" id="EmailHostAddress" placeholder="EmailHostAddress">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-4 control-label">邮箱服务器端口：</label>
+						    <div class="col-sm-6">
+						      <input v-model=smtpPort name="smtpPort" type="number" class="form-control" id="EmailHostPort" placeholder="EmailHostPort">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-4 control-label">邮箱地址：</label>
+						    <div class="col-sm-6">
+						      <input v-model=username name="username" type="email" class="form-control" id="Email" placeholder="Email">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-4 control-label">授权密码：</label>
+						    <div class="col-sm-6">
+						      <input v-bind:value=password name="password" type="password" class="form-control" id="EmailAuthorizationCode" placeholder="EmailAuthorizationCode">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <div class="col-sm-offset-4 col-sm-6">
+						      <div class="checkbox">
+						        <label>
+						          <input v-model=useSSL name="useSSL" type="checkbox"> SSL
+						        </label>
+						      </div>
+						    </div>
+						  </div>
+						</form>
+						<div class="col-sm-offset-8 col-sm-4">
+						    <button @click="submit" class="btn btn-sm btn-primary">提交</button>
+						</div>
+				</main>
+			</div>
+		</div>
+		
+		<!-- 模态框 （用于提示信息） -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="tip">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+		        <h4 class="modal-title">提示：</h4>
+		      </div>
+		      <div class="modal-body">
+		        <p>保存成功！</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+	</body>
+<script type="text/javascript" src="/asserts/js/message.js"></script>
+</html>
